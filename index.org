@@ -1,0 +1,6 @@
+#+TITLE: (blog :author "xifi")
+#+AUTHOR: xificurC
+#+OPTIONS: toc:nil num:nil
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="org.css"/>
+
+* A programmer's blog

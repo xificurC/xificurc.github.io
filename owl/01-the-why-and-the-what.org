@@ -1,0 +1,34 @@
+#+TITLE: (blog :page "owl/01-the-why-and-the-what")
+#+AUTHOR: xificurC
+#+OPTIONS: toc:nil num:nil
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../org.css"/>
+
+* The why and the what
+
+  This will be a tour where I try to build a good Linux scripting environment on top of [[https://haltp.org/n/owl][Owl Lisp]].
+
+** Why not bash, python, <my favorite language>?
+   Nothing if you're happy with the language you pick. I haven't found an environment that would suit my needs yet. When starting with bash the scripts are *good enough* (if you use [[https://github.com/koalaman/shellcheck][shellcheck]]), but once you get over ~100 lines of code things go messy, specifically:
+   - composition: since everything is a string you slowly start hacking around it with some ad-hoc rules and tricks.
+   - reusability: functions are extremely stupid - they can only return a string or exit with some return code.
+   - error handling: almost none by default, weird when turned on (see [[http://mywiki.wooledge.org/BashFAQ/105][this explanation]]). I could go into more details, but don't make me.
+   - many, many [[http://mywiki.wooledge.org/BashPitfalls][pitfalls]].
+
+   Another common choice (especially when your bash script outgrows it's initial expectations) is python. After working with it for a while I didn't come to appreciate it. There's too many choices in the language I don't agree with and keep tripping me up or write a lot of boilerplate code. Again, I don't want to rant so I won't.
+
+** So what am I looking for?
+   I want a scripting language where:
+   - I can simply and cleanly fall back to calling external commands, pipes, redirects etc. Basically a well designed bash interop. Since many things are already written this way I want to leverage that.
+   - working with the filesystem is simple and intuitive.
+   - functions are first class. This is the single strongest abstraction I need.
+   - data is immutable. Because I care about [[https://www.infoq.com/presentations/Value-Values][the value of values]].
+   - focus is on functional programming instead of objects.
+   - the language can be molded to one's needs - hence lisp, the metaprogramming language.
+   - fast startup of the interpreter. We are aiming for quick scripting that could be possibly chained in bash.
+
+   Owl lisp misses the first 2 points, which we can fix by writing some libraries. And that's what these posts will be mostly about.
+
+** What's next?
+   If you're not familiar with scheme you should read [[https://learnxinyminutes.com/docs/CHICKEN/][at least this]] to get the basics of the language. Unfortunately owl lisp isn't very much documented, but it's mostly written in itself so we can read the source code to learn what we need.
+
+   In the next post we will set up owl lisp and start working on the first small bits of filesystem operations.
