@@ -1,0 +1,117 @@
+#+TITLE: (blog :page "hy/01-hy-the-journey-for-a-scripting-language.org")
+#+AUTHOR: xificurC
+#+OPTIONS: toc:nil num:nil
+#+STARUP: indent
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="../org.css"/>
+
+* Hy - the journey for a scripting language
+
+  I write a lot of scripts at my day job. I've searched all the chambers, looked under every rock and climbed every tree to find scrtiping language to my tastes. To mention some that I tried (yes, I like lisps):
+
+  - [[https://www.gnu.org/software/bash/][bash]] - everyone knows it. It's simple and people even call it a functional language since you are composing (piping) a lot. A fun fact - did you know bash doesn't have a garbage collector? Anyway, it's great for one-shot small scripts but once you go over 100 lines you really start to feel the pain. Error handling sucks, functions can only echo or return an integer (return code).
+  - [[https://www.python.org/][python]] - I must say I'm not a huge fan of the language. Maybe I think too differently. Or the language is bad. Or both. Or none. Be that as it may it is the one of the most used scripting languages when it comes to automation on linux. I end up writing in it most of my day job. It's doable, but sometimes very painful.
+  - [[https://nodejs.org/en/][nodejs]] - ... Really, no. The only way would be to use [[https://clojurescript.org/][clojurescript]] but the startup times are pretty bad and it doesn't interoperate with npm packages very well.
+  - [[https://www.lua.org/about.html][lua]] - great, simple, fast. There's enough packages on [[https://luarocks.org/][LuaRocks]] to make almost anything. The language is used widely (mostly embedded though). My issues? I didn't like the changes from 5.1 to 5.2 and then to 5.3. LuaJIT [[https://github.com/LuaJIT/LuaJIT/issues/198][doesn't seem to be interested in supporting the latest version]], although I'm not sure why. Overall the language doesn't bring enough benefits (for me) to use it instead of something more mainstream.
+  - [[http://practical-scheme.net/gauche/][gauche]] - a very nice scheme implementation. It is fast enough and developed for over a decade. Unfortunately it only has a handful of users and a few packages.
+  - [[https://racket-lang.org/][racket]] and [[http://sbcl.org/][sbcl]] (Common Lisp) - great lisps with enough packages to do anything you might really need. Startup time can be good with compilation for the former and an image dump for the latter. My only issue is it's hard to get other colleagues into using a lisp. Most of them think lisp has died decades ago.
+
+  So I'm writing mostly python and bash these days at my day job. They are used widely and anyone would be willing to learn them in case one would need to contribute. My dream scripting language would probably be clojurescript if it had traction at automation and close-to-zero startup. I would also love to try out a strongly typed , immutable first dynamic lisp, but that language hasn't been invented yet. Maybe typed racket is getting close, although that type system is not what I had in mind but something closer to ML or Haskell.
+
+** The bright light at the end of the tunnel?
+
+  So what's up with this "hy" word in the title? [[https://github.com/hylang/hy#ok-so-why][Hy]] is a lisp dialect that translates directly to python AST with the intention to have seamless interoperability with python. While this decision has 1 big downside for me - not having immutable data structures as the default - it allows me to use the existing mature python libraries with no effort.
+
+  For starters let's look at the interop - what is the hy equivalent of python's:
+
+  | python 3          | hy                     |
+  |-------------------+------------------------|
+  | =x = 3=           | =(setv x 3)=           |
+  | =coll[1:4]=       | =(cut coll 1 4)=       |
+  | =import foo as f= | =(import [foo :as f])= |
+  | =f.func=          | =f.func=               |
+  | =obj.property=    | =obj.property=         |
+  | =obj.property=    | =(. obj property)=     |
+  | ="{}".format(x)=  | =(.format "{}" x)=     |
+
+
+  As you can see it's quite easy to translate simple constructs.
+
+  But why would one want to use it instead of python?
+
+*** Syntax
+   Call me crazy but I don't like python's syntax. I don't like almost any syntax since I know lisp. All the operators, keywords and punctuation, I always get lost in it. Here's a simple example exercise - for all x such that x is positive calculate the square root of x. Return all but the first and last result. In idiomatic python:
+
+   #+BEGIN_SRC python
+     data = (sqrt(x) for x in xs if x > 0)[1:-1]
+   #+END_SRC
+
+   I would translate that to english as "Calculate the square root for xs if they are positive and discard the first and last result". Pretty similar, right? While it is close it's a bit out of order. Idiomatic hy wants you to write down your solution as a pipeline of transformations, which translates naturally to the above exercise's definition:
+
+   #+BEGIN_SRC hy
+     (setv data (->> xs
+                     (filter pos?)
+                     (map sqrt)
+                     (cut 1 -1)))
+   #+END_SRC
+
+   You might not be familiar with =->>= which is a threading macro borrowed from clojure but I trust you can read the code. So the difference between python and hy is subtle but makes a larger impact if we add another filter and another map:
+
+   #+BEGIN_SRC python
+     data = (abs(sqrt(x)) for x in xs if x > 0 and x % 2 == 0)[1:-1]
+   #+END_SRC
+
+   #+BEGIN_SRC hy
+     (setv data (->> xs
+                     (filter pos?)
+                     (filter even?)
+                     (map sqrt)
+                     (map abs)
+                     (cut 1 -1)))
+   #+END_SRC
+
+   There's many other ways to write each version, but only the lisp one will stay syntactically the same.
+
+   If you disagree with me that's fine, I don't think I can sell lisp in 5 minutes and syntax is often a religious topic. The eye-opener about lisp's syntax though is not just simplicity but the other benefit it brings - metaprogramming.
+
+*** Macros
+    The lisp macro system is the C preprocessor's big brother. That's actually a large understatement and a dishonor to lisp macros. The lisp macro system is the king of the jungle whereas the C preprocessor is your neighbor's cat. There, better.
+
+    So, to oversimplify, macros are code preprocessors that can do arbitrary code transformations. The reason they are so cool is the so-called *homoiconicity* of lisps, which means code is data, which still might not explain all that much to you. If you think of python code there's a lot of syntax, keywords, operators, statements etc. To oversimplify one more time, the first job of the interpreter is to parse this piece of code into an abstract syntax tree. At this point your code has become a data structure, a tree. The interpreter can now take this data tree and literally interpret it, walk the data giving it some meaning and executing that. You with me so far? Cool. Now lisps are a bit different - the code you write is already a data tree - it's lists all the way down. This gives lisps the magical power to introduce a preprocessor step (macros) that receive your piece of code *as data* and make arbitrary transformations.
+
+    Enough talk, let's see some action. Here is a Hy macro I end up defining in every language:
+
+    #+BEGIN_SRC hy
+      (defmacro dbg [x]
+        `(do (print '~x "is" ~x)
+             ~x))
+    #+END_SRC
+
+    This macro allows wrapping any piece of code and getting a nice debug print for it. Lispers will know there's a subtle bug in that definition but I don't want to go too deep in this already long enough post. Here's some sample outputs from the Hy REPL:
+
+    #+BEGIN_SRC hy
+     => (dbg (+ 2 3))
+     ('+' 2 3) is 5
+     5
+     => (setv x 10)
+     => (setv y (dbg (* x 5)))
+     ('*' 'x' 5) is 50
+     => y
+     50
+     => (dbg (setv z (+ x y)))
+     ('setv' 'z' ('+' 'x' 'y')) is 60
+     => z
+     60
+     =>
+
+    #+END_SRC
+
+    Now try to write the same thing in python or javascript. It's just not possible. While you might not understand the macro's body I can assure you it doesn't take long to learn writing them.
+
+    This is a very simple debugging macro but you can do wonderful things with macros, e.g.:
+    - clojure has a macro called =go= that brings go-like channels to the language. That means noone had to change the language or bring in more primitives. The same macro works in clojurescript (clojure that compiles to javascript). While users of javascript wait for years for a committee to standardize something like async/await or new lambda syntax lisp users can create dozens of *libraries* that try to solve something and let evolution decide whether it was right or not. More importantly you can choose from multiple options, use different ones in different projects and roll your own.
+    - common lisp's whole object oriented protocol is just a set of macros. More interestingly there's a so-called meta-object protocol that allows bending the object model to one's needs. E.g. you can duplicate java's OO model with it.
+    - common lisp's =loop= macro is a great example of an embedded DSL where you can write things like =(loop for x in coll if (even? x) collect (abs x))=. Remember this is not a built-in like python's list comprehensions, you can pick from other alternatives and write your own!
+
+** Conclusion
+
+   Simple syntax, powerful metaprogramming. These are the selling points of lisps. It's easy to learn, easy to write (yes, it is) and easy to read. Now come join the dark side. We have cookies.

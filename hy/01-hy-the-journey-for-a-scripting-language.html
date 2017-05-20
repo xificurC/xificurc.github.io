@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-05-20 Sat 22:36 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>(blog :page "hy/01-hy-the-journey-for-a-scripting-language.org")</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="xificurC" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="../org.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2017 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">(blog :page "hy/01-hy-the-journey-for-a-scripting-language.org")</h1>
+
+<div id="outline-container-org7f2c988" class="outline-2">
+<h2 id="org7f2c988">Hy - the journey for a scripting language</h2>
+<div class="outline-text-2" id="text-org7f2c988">
+<p>
+I write a lot of scripts at my day job. I've searched all the chambers, looked under every rock and climbed every tree to find scrtiping language to my tastes. To mention some that I tried (yes, I like lisps):
+</p>
+
+<ul class="org-ul">
+<li><a href="https://www.gnu.org/software/bash/">bash</a> - everyone knows it. It's simple and people even call it a functional language since you are composing (piping) a lot. A fun fact - did you know bash doesn't have a garbage collector? Anyway, it's great for one-shot small scripts but once you go over 100 lines you really start to feel the pain. Error handling sucks, functions can only echo or return an integer (return code).</li>
+<li><a href="https://www.python.org/">python</a> - I must say I'm not a huge fan of the language. Maybe I think too differently. Or the language is bad. Or both. Or none. Be that as it may it is the one of the most used scripting languages when it comes to automation on linux. I end up writing in it most of my day job. It's doable, but sometimes very painful.</li>
+<li><a href="https://nodejs.org/en/">nodejs</a> - &#x2026; Really, no. The only way would be to use <a href="https://clojurescript.org/">clojurescript</a> but the startup times are pretty bad and it doesn't interoperate with npm packages very well.</li>
+<li><a href="https://www.lua.org/about.html">lua</a> - great, simple, fast. There's enough packages on <a href="https://luarocks.org/">LuaRocks</a> to make almost anything. The language is used widely (mostly embedded though). My issues? I didn't like the changes from 5.1 to 5.2 and then to 5.3. LuaJIT <a href="https://github.com/LuaJIT/LuaJIT/issues/198">doesn't seem to be interested in supporting the latest version</a>, although I'm not sure why. Overall the language doesn't bring enough benefits (for me) to use it instead of something more mainstream.</li>
+<li><a href="http://practical-scheme.net/gauche/">gauche</a> - a very nice scheme implementation. It is fast enough and developed for over a decade. Unfortunately it only has a handful of users and a few packages.</li>
+<li><a href="https://racket-lang.org/">racket</a> and <a href="http://sbcl.org/">sbcl</a> (Common Lisp) - great lisps with enough packages to do anything you might really need. Startup time can be good with compilation for the former and an image dump for the latter. My only issue is it's hard to get other colleagues into using a lisp. Most of them think lisp has died decades ago.</li>
+</ul>
+
+<p>
+So I'm writing mostly python and bash these days at my day job. They are used widely and anyone would be willing to learn them in case one would need to contribute. My dream scripting language would probably be clojurescript if it had traction at automation and close-to-zero startup. I would also love to try out a strongly typed , immutable first dynamic lisp, but that language hasn't been invented yet. Maybe typed racket is getting close, although that type system is not what I had in mind but something closer to ML or Haskell.
+</p>
+</div>
+
+<div id="outline-container-org7788230" class="outline-3">
+<h3 id="org7788230">The bright light at the end of the tunnel?</h3>
+<div class="outline-text-3" id="text-org7788230">
+<p>
+So what's up with this "hy" word in the title? <a href="https://github.com/hylang/hy#ok-so-why">Hy</a> is a lisp dialect that translates directly to python AST with the intention to have seamless interoperability with python. While this decision has 1 big downside for me - not having immutable data structures as the default - it allows me to use the existing mature python libraries with no effort.
+</p>
+
+<p>
+For starters let's look at the interop - what is the hy equivalent of python's:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">python 3</th>
+<th scope="col" class="org-left">hy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left"><code>x = 3</code></td>
+<td class="org-left"><code>(setv x 3)</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>coll[1:4]</code></td>
+<td class="org-left"><code>(cut coll 1 4)</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>import foo as f</code></td>
+<td class="org-left"><code>(import [foo :as f])</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>f.func</code></td>
+<td class="org-left"><code>f.func</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>obj.property</code></td>
+<td class="org-left"><code>obj.property</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>obj.property</code></td>
+<td class="org-left"><code>(. obj property)</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>"{}".format(x)</code></td>
+<td class="org-left"><code>(.format "{}" x)</code></td>
+</tr>
+</tbody>
+</table>
+
+
+<p>
+As you can see it's quite easy to translate simple constructs.
+</p>
+
+<p>
+But why would one want to use it instead of python?
+</p>
+</div>
+
+<div id="outline-container-org552b2d2" class="outline-4">
+<h4 id="org552b2d2">Syntax</h4>
+<div class="outline-text-4" id="text-org552b2d2">
+<p>
+Call me crazy but I don't like python's syntax. I don't like almost any syntax since I know lisp. All the operators, keywords and punctuation, I always get lost in it. Here's a simple example exercise - for all x such that x is positive calculate the square root of x. Return all but the first and last result. In idiomatic python:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #7590db;">data</span> = <span style="color: #4f97d7;">(</span>sqrt<span style="color: #bc6ec5;">(</span>x<span style="color: #bc6ec5;">)</span> <span style="color: #4f97d7; font-weight: bold;">for</span> x <span style="color: #4f97d7; font-weight: bold;">in</span> xs <span style="color: #4f97d7; font-weight: bold;">if</span> x &gt; <span style="color: #a45bad;">0</span><span style="color: #4f97d7;">)[</span><span style="color: #a45bad;">1</span>:-<span style="color: #a45bad;">1</span><span style="color: #4f97d7;">]</span>
+</pre>
+</div>
+
+<p>
+I would translate that to english as "Calculate the square root for xs if they are positive and discard the first and last result". Pretty similar, right? While it is close it's a bit out of order. Idiomatic hy wants you to write down your solution as a pipeline of transformations, which translates naturally to the above exercise's definition:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-hy"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7;">setv</span> data <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">-&gt;&gt;</span> xs
+                <span style="color: #2d9574;">(</span><span style="color: #4f97d7;">filter</span> pos?<span style="color: #2d9574;">)</span>
+                <span style="color: #2d9574;">(</span><span style="color: #4f97d7;">map</span> sqrt<span style="color: #2d9574;">)</span>
+                <span style="color: #2d9574;">(</span><span style="color: #4f97d7;">cut</span> <span style="color: #a45bad;">1</span> -1<span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+
+<p>
+You might not be familiar with <code>-&gt;&gt;</code> which is a threading macro borrowed from clojure but I trust you can read the code. So the difference between python and hy is subtle but makes a larger impact if we add another filter and another map:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="color: #7590db;">data</span> = <span style="color: #4f97d7;">(</span><span style="color: #4f97d7;">abs</span><span style="color: #bc6ec5;">(</span>sqrt<span style="color: #2d9574;">(</span>x<span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span> <span style="color: #4f97d7; font-weight: bold;">for</span> x <span style="color: #4f97d7; font-weight: bold;">in</span> xs <span style="color: #4f97d7; font-weight: bold;">if</span> x &gt; <span style="color: #a45bad;">0</span> <span style="color: #4f97d7; font-weight: bold;">and</span> x % <span style="color: #a45bad;">2</span> == <span style="color: #a45bad;">0</span><span style="color: #4f97d7;">)[</span><span style="color: #a45bad;">1</span>:-<span style="color: #a45bad;">1</span><span style="color: #4f97d7;">]</span>
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-hy"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7;">setv</span> data <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">-&gt;&gt;</span> xs
+                <span style="color: #2d9574;">(</span><span style="color: #4f97d7;">filter</span> pos?<span style="color: #2d9574;">)</span>
+                <span style="color: #2d9574;">(</span><span style="color: #4f97d7;">filter</span> even?<span style="color: #2d9574;">)</span>
+                <span style="color: #2d9574;">(</span><span style="color: #4f97d7;">map</span> sqrt<span style="color: #2d9574;">)</span>
+                <span style="color: #2d9574;">(</span><span style="color: #4f97d7;">map</span> abs<span style="color: #2d9574;">)</span>
+                <span style="color: #2d9574;">(</span><span style="color: #4f97d7;">cut</span> <span style="color: #a45bad;">1</span> -1<span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+
+<p>
+There's many other ways to write each version, but only the lisp one will stay syntactically the same.
+</p>
+
+<p>
+If you disagree with me that's fine, I don't think I can sell lisp in 5 minutes and syntax is often a religious topic. The eye-opener about lisp's syntax though is not just simplicity but the other benefit it brings - metaprogramming.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5b47cc9" class="outline-4">
+<h4 id="org5b47cc9">Macros</h4>
+<div class="outline-text-4" id="text-org5b47cc9">
+<p>
+The lisp macro system is the C preprocessor's big brother. That's actually a large understatement and a dishonor to lisp macros. The lisp macro system is the king of the jungle whereas the C preprocessor is your neighbor's cat. There, better.
+</p>
+
+<p>
+So, to oversimplify, macros are code preprocessors that can do arbitrary code transformations. The reason they are so cool is the so-called <b>homoiconicity</b> of lisps, which means code is data, which still might not explain all that much to you. If you think of python code there's a lot of syntax, keywords, operators, statements etc. To oversimplify one more time, the first job of the interpreter is to parse this piece of code into an abstract syntax tree. At this point your code has become a data structure, a tree. The interpreter can now take this data tree and literally interpret it, walk the data giving it some meaning and executing that. You with me so far? Cool. Now lisps are a bit different - the code you write is already a data tree - it's lists all the way down. This gives lisps the magical power to introduce a preprocessor step (macros) that receive your piece of code <b>as data</b> and make arbitrary transformations.
+</p>
+
+<p>
+Enough talk, let's see some action. Here is a Hy macro I end up defining in every language:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-hy"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">defmacro</span> <span style="color: #bc6ec5; font-weight: bold;">dbg</span> <span style="color: #bc6ec5;">[</span>x<span style="color: #bc6ec5;">]</span>
+  `<span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">do</span> <span style="color: #2d9574;">(</span><span style="color: #4f97d7;">print</span> '~x <span style="color: #2d9574;">"is"</span> ~x<span style="color: #2d9574;">)</span>
+       ~x<span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+
+<p>
+This macro allows wrapping any piece of code and getting a nice debug print for it. Lispers will know there's a subtle bug in that definition but I don't want to go too deep in this already long enough post. Here's some sample outputs from the Hy REPL:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-hy">=&gt; <span style="color: #4f97d7;">(</span>dbg <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7;">+</span> <span style="color: #a45bad;">2</span> <span style="color: #a45bad;">3</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+<span style="color: #4f97d7;">(</span>'+' <span style="color: #a45bad;">2</span> <span style="color: #a45bad;">3</span><span style="color: #4f97d7;">)</span> is <span style="color: #a45bad;">5</span>
+<span style="color: #a45bad;">5</span>
+=&gt; <span style="color: #4f97d7;">(</span><span style="color: #4f97d7;">setv</span> x <span style="color: #a45bad;">10</span><span style="color: #4f97d7;">)</span>
+=&gt; <span style="color: #4f97d7;">(</span><span style="color: #4f97d7;">setv</span> y <span style="color: #bc6ec5;">(</span>dbg <span style="color: #2d9574;">(</span><span style="color: #4f97d7;">*</span> x <span style="color: #a45bad;">5</span><span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+<span style="color: #4f97d7;">(</span>'*' 'x' <span style="color: #a45bad;">5</span><span style="color: #4f97d7;">)</span> is <span style="color: #a45bad;">50</span>
+=&gt; y
+<span style="color: #a45bad;">50</span>
+=&gt; <span style="color: #4f97d7;">(</span>dbg <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7;">setv</span> z <span style="color: #2d9574;">(</span><span style="color: #4f97d7;">+</span> x y<span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+<span style="color: #4f97d7;">(</span>'setv' 'z' <span style="color: #bc6ec5;">(</span>'+' 'x' 'y'<span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span> is <span style="color: #a45bad;">60</span>
+=&gt; z
+<span style="color: #a45bad;">60</span>
+=&gt;
+
+</pre>
+</div>
+
+<p>
+Now try to write the same thing in python or javascript. It's just not possible. While you might not understand the macro's body I can assure you it doesn't take long to learn writing them.
+</p>
+
+<p>
+This is a very simple debugging macro but you can do wonderful things with macros, e.g.:
+</p>
+<ul class="org-ul">
+<li>clojure has a macro called <code>go</code> that brings go-like channels to the language. That means noone had to change the language or bring in more primitives. The same macro works in clojurescript (clojure that compiles to javascript). While users of javascript wait for years for a committee to standardize something like async/await or new lambda syntax lisp users can create dozens of <b>libraries</b> that try to solve something and let evolution decide whether it was right or not. More importantly you can choose from multiple options, use different ones in different projects and roll your own.</li>
+<li>common lisp's whole object oriented protocol is just a set of macros. More interestingly there's a so-called meta-object protocol that allows bending the object model to one's needs. E.g. you can duplicate java's OO model with it.</li>
+<li>common lisp's <code>loop</code> macro is a great example of an embedded DSL where you can write things like <code>(loop for x in coll if (even? x) collect (abs x))</code>. Remember this is not a built-in like python's list comprehensions, you can pick from other alternatives and write your own!</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9249a9c" class="outline-3">
+<h3 id="org9249a9c">Conclusion</h3>
+<div class="outline-text-3" id="text-org9249a9c">
+<p>
+Simple syntax, powerful metaprogramming. These are the selling points of lisps. It's easy to learn, easy to write (yes, it is) and easy to read. Now come join the dark side. We have cookies.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: xificurC</p>
+<p class="date">Created: 2017-05-20 Sat 22:36</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
