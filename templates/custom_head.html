@@ -1,0 +1,58 @@
+<style>
+:root {
+  --font-main: monospace;
+  --font-secondary: monospace;
+  --font-scale: 1.2em;
+}
+/* post header: title left, date right, same row */
+.post-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1.5em;
+}
+.post-title {
+  font-size: 2em;
+  margin: 0;
+}
+.post-date {
+  white-space: nowrap;
+  font-style: italic;
+}
+/* site title: center */
+.title {
+  text-align: center;
+  display: block;
+}
+/* nav: subtle separator from title */
+nav {
+  border-bottom: 1px dashed;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+/* align inline code colors with giallo's palette */
+@media (prefers-color-scheme: light) {
+  :root {
+    --code-background-color: #FFFFFF;
+    --code-color: #24292E;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --code-background-color: #24292E;
+    --code-color: #E1E4E8;
+  }
+}
+/* heading anchors inherit heading color, not link color */
+.zola-anchor {
+  color: inherit;
+  text-decoration: none;
+}
+/* giallo controls syntax-highlighted block colors, not the theme */
+pre.z-code code {
+  background-color: inherit;
+  color: inherit;
+}
+</style>
+<link rel="stylesheet" href="/giallo-light.css" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="/giallo-dark.css" media="(prefers-color-scheme: dark)">
