@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: getzola/github-pages@435a833fd3f1edcb28d70576c89e30a6365cd8f7 # v1
         with:
-          zola_version: "0.22.1"
+          zola_version: "v0.22.1"
 
   deploy:
     runs-on: ubuntu-latest
