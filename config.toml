@@ -37,3 +37,7 @@ hide_made_with_line = true
 [[extra.main_menu]]
 name = "Blog"
 url = "@/blog/_index.md"
+
+[[extra.main_menu]]
+name = "About Me"
+url = "@/_index.md"

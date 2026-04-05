@@ -33,4 +33,8 @@
       {%- endfor %}
     {%- endif %}
   </p>
+  {%- if not page.extra.menu %}
+  <hr>
+  <a href="{{ get_url(path='@/_index.md', lang=lang) }}">About Me</a>
+  {%- endif %}
 {% endblock %}
